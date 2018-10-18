@@ -1,0 +1,30 @@
+{
+  "name": "frontendKit",
+  "version": "2.0.0",
+  "description": "New version frontendKit ",
+  "main": "index.js",
+  "author": "Ivan A Samodurov (samodurov.ivan@gmail.com)",
+  "license": "MIT",
+  "scripts": {
+    "dev": "gulp --env development",
+    "build": "gulp build --env production"
+  },
+  "dependencies": {
+    "normalize.css": "^8.0.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.26.3",
+    "gulp": "^3.9.1",
+    "gulp-if": "^2.0.2",
+    "gulp-image": "^4.3.0",
+    "gulp-newer": "^1.4.0",
+    "gulp-nunjucks": "^4.0.0",
+    "gulp-plumber": "^1.2.0",
+    "gulp-postcss": "^8.0.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.4",
+    "minimist": "^1.2.0",
+    "postcss-import": "^12.0.0",
+    "webpack-stream": "^5.1.1"
+  }
+}

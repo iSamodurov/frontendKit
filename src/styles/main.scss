@@ -1,0 +1,52 @@
+
+
+@import "../../node_modules/normalize.css/normalize.css";
+
+
+// ------------------------------------
+//      V A R I A B L E S
+// ------------------------------------
+
+$font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-color: #222;
+$base-font-size: 14px;
+
+$container-width: 1200px;
+
+
+// ------------------------------------
+//      B A S I C   S T Y L E S
+// ------------------------------------
+* {
+    box-sizing: border-box;
+    outline: none 0;
+}
+
+body {
+    font-family: $font-family;
+    color: $font-color;
+    font-size: $base-font-size;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;    
+}
+
+.container {
+    width: $container-width;
+    margin: 0 auto;
+}
+
+
+// ------------------------------------
+//          T Y P O G R A P H Y
+// ------------------------------------
+
+
+// ------------------------------------
+//          B L O C K S
+// ------------------------------------
+
+
+// ------------------------------------
+//          S E C T I O N S
+// ------------------------------------
+
