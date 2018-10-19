@@ -1,6 +1,7 @@
 const gulp = require('gulp');
 const webpack = require('webpack-stream');
 const WebpackMessages = require('webpack-messages');
+
 const sourcemaps = require('gulp-sourcemaps');
 const sass = require('gulp-sass');
 const nunjucks = require('gulp-nunjucks');
@@ -48,7 +49,8 @@ gulp.task('js', function (done) {
 
     let config = {
         watch: watch,
-        mode: mode,
+        mode: mode,        
+        devtool: 'source-map',
         output: {
             path: __dirname,
             filename: "main.js"
@@ -57,8 +59,22 @@ gulp.task('js', function (done) {
             new WebpackMessages({
                 name: 'client',
                 logger: str => console.log(`>> ${str}`)
-            })
-        ]
+            })           
+        ],
+        module: {
+            rules: [
+                {
+                    test: /\.m?js$/,
+                    exclude: /(node_modules|bower_components)/,
+                    use: {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['@babel/preset-env']
+                        }
+                    }
+                }
+            ]
+        }
     }
 
     return gulp.src("src/js/main.js")        
@@ -108,6 +124,18 @@ gulp.task('images:watch', function () {
 });
 
 
+/* ---------------------------------------
+    A S S E T S   &   L I B S
+--------------------------------------- */
+gulp.task('libs', function(){
+    let libs = [
+        './node_modules/sourcebuster/dist/sourcebuster.min.js'
+    ]
+    return gulp.src(libs)
+        .pipe(gulp.dest('build/js/libs/'))
+})
+
+
 
 /* ---------------------------------------
     S E R V E R
@@ -124,10 +152,8 @@ gulp.task('serve', function () {
 
 
 
-
-
 gulp.task('watch', gulp.parallel('sass:watch', 'html:watch', 'images:watch'));
-gulp.task('build', gulp.parallel('js', 'images:build', 'sass:build', 'html:build') );
+gulp.task('build', gulp.parallel('js', 'libs', 'images:build', 'sass:build', 'html:build') );
 
 //gulp.task('default', gulp.parallel('build', 'serve', 'watch'));
 gulp.task('default', gulp.series( 'build', 'serve', 'watch' ));
