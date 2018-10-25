@@ -15,6 +15,8 @@ const plumber = require('gulp-plumber');
 
 const postcss = require('gulp-postcss');
 const cssImport = require("postcss-import");
+const autoprefixer = require('autoprefixer');
+const mqpacker = require("css-mqpacker");
 
 
 var args = minimist(process.argv.slice(2));
@@ -33,8 +35,8 @@ gulp.task('html:build', () =>
         .pipe(reload({stream: true}))        
 );
 
-gulp.task('html:watch', function () {
-    gulp.watch('src/pages/**/*.html', ['html:build']);
+gulp.task('html:watch', function() {
+    gulp.watch('src/pages/**/*.html', ['html:build']);    
 });
 
 
@@ -78,7 +80,7 @@ gulp.task('js', function (done) {
     }
 
     return gulp.src("src/js/main.js")        
-        .pipe(webpack(config, null, done))
+        .pipe(webpack(config))
         .pipe(gulp.dest("build/js/"))
         .pipe(browserSync.stream());
 });
@@ -90,7 +92,9 @@ gulp.task('js', function (done) {
 --------------------------------------- */
 gulp.task('sass:build', function () {
     let plugins = [
-        cssImport()
+        cssImport(),
+        autoprefixer(),
+        mqpacker()
     ]
 
     return gulp.src('src/styles/main.scss')
@@ -103,7 +107,7 @@ gulp.task('sass:build', function () {
         .pipe(browserSync.stream());
 });
 gulp.task('sass:watch', function () {
-    gulp.watch('src/styles/**/*.scss', ['sass:build']);
+    gulp.watch('src/styles/**/*.scss', ['sass:build']);    
 });
 
 
@@ -119,8 +123,8 @@ gulp.task('images:build', function () {
         .pipe(gulp.dest('build/img/'))
         .pipe(reload({stream: true}))     
 });
-gulp.task('images:watch', function () {
-    gulp.watch('src/images/**/*.*', ['images:build']);
+gulp.task('images:watch', function() {
+    gulp.watch('./src/img/**/*.*', ['images:build']);    
 });
 
 
@@ -133,27 +137,34 @@ gulp.task('libs', function(){
     ]
     return gulp.src(libs)
         .pipe(gulp.dest('build/js/libs/'))
-})
+});
+
+
+gulp.task('assets:move', function(){
+    return gulp.src('src/assets/**/*.*')
+        .pipe(gulp.dest('build/'))
+});
+
 
 
 
 /* ---------------------------------------
     S E R V E R
 --------------------------------------- */
-gulp.task('serve', function () {
+gulp.task('serve', function() {
     browserSync.init({
         server: {
             baseDir: "./build"
         },
         tunnel: false        
-    });
+    });    
 });
 
 
 
 
-gulp.task('watch', gulp.parallel('sass:watch', 'html:watch', 'images:watch'));
-gulp.task('build', gulp.parallel('js', 'libs', 'images:build', 'sass:build', 'html:build') );
+gulp.task('watch', ['sass:watch', 'html:watch', 'images:watch']);
+gulp.task('build', ['js', 'libs', 'assets:move', 'images:build', 'sass:build', 'html:build']);
 
 //gulp.task('default', gulp.parallel('build', 'serve', 'watch'));
-gulp.task('default', gulp.series( 'build', 'serve', 'watch' ));
+gulp.task('default', ['build', 'serve', 'watch']);
