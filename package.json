@@ -20,6 +20,8 @@
     "babel-loader": "^8.0.4",
     "browser-sync": "^2.26.3",
     "css-mqpacker": "^7.0.0",
+    "eslint": "^5.10.0",
+    "eslint-config-google": "^0.11.0",
     "gulp": "^3.9.1",
     "gulp-if": "^2.0.2",
     "gulp-image": "^4.3.0",

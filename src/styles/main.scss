@@ -1,6 +1,6 @@
 
-
 @import "../../node_modules/normalize.css/normalize.css";
+@import './core';
 
 
 // ------------------------------------
@@ -10,7 +10,6 @@
 $font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 $font-color: #222;
 $base-font-size: 14px;
-
 $container-width: 1200px;
 
 
@@ -22,12 +21,15 @@ $container-width: 1200px;
     outline: none 0;
 }
 
-body {
+html, body {
     font-family: $font-family;
     color: $font-color;
     font-size: $base-font-size;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;    
+    -moz-osx-font-smoothing: grayscale;   
+    @include respond-from('FHD') {
+        font-size: 16px;
+    } 
 }
 
 .container {
