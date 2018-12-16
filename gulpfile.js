@@ -124,7 +124,7 @@ gulp.task('images:build', function () {
         .pipe(reload({stream: true}))     
 });
 gulp.task('images:watch', function() {
-    gulp.watch('./src/img/**/*.*', ['images:build']);    
+    gulp.watch('src/img/**/*.*', ['images:build']);    
 });
 
 
