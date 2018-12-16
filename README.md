@@ -6,7 +6,7 @@
 
 ``` yarn run dev ``` - dev mode
 
-``` yarn run build ``` - build woth production mode 
+``` yarn run build ``` - build with production mode 
 
 ``` yarn clear ``` - remove 'build' foolder
 
