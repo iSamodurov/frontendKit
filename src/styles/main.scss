@@ -47,6 +47,34 @@ html, body {
 //          B L O C K S
 // ------------------------------------
 
+.map  {
+    .custom-placemark {
+        $pin-size: 10px;
+        display: block;
+        background: #fff;
+        min-width: 160px;
+        padding: 10px 15px;
+        position: relative;
+        transform: translate(-50%, -100%);
+        margin-top: -$pin-size;
+        filter: drop-shadow(0 -3px 16px rgba(0, 0, 0, 0.2));
+        &:after {
+            content: "";
+            position: absolute;
+            border: $pin-size solid transparent;
+            border-top: $pin-size solid #fff;
+            top:100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+    canvas {
+        filter: grayscale(100%) brightness(70%) contrast(200%);
+    }
+    [class*="-copyright__wrap"] {
+        display: none;
+    }
+}
 
 // ------------------------------------
 //          S E C T I O N S

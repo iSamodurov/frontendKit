@@ -2,7 +2,7 @@
 
 const defaultConfig = {
 	zoom: 14,
-	controls: [],
+	controls: ['zoomControl'],
 	center: [],
 	scrollZoom: false,
 };
@@ -17,7 +17,9 @@ class CustomYaMap {
 	}
 
 	initMap = () => {
-		this.map = new ymaps.Map('map', this.props);
+		this.map = new ymaps.Map('map', this.props, {
+			suppressMapOpenBlock: true
+		});
 		this.addPointsToMap(this.points);
 		this.applayOptions();
 	}
@@ -69,7 +71,10 @@ class CustomYaMap {
 	}
 
 	applayOptions = () => {
-		this.map.setBounds(this.map.geoObjects.getBounds(), { checkZoomRange: true }).then(() => {
+		this.map.setBounds(this.map.geoObjects.getBounds(), { 
+			checkZoomRange: true,
+			zoomMargin: 100,
+		}).then(() => {
 			if (this.map.getZoom() > this.props.zoom) {
 				this.map.setZoom(this.props.zoom);
 			}
