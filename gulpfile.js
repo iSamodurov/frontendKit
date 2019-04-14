@@ -61,7 +61,7 @@ gulp.task('js', function (done) {
             new WebpackMessages({
                 name: 'client',
                 logger: str => console.log(`>> ${str}`)
-            })           
+            })       
         ],
         module: {
             rules: [
@@ -71,7 +71,8 @@ gulp.task('js', function (done) {
                     use: {
                         loader: 'babel-loader',
                         options: {
-                            presets: ['@babel/preset-env']
+                            presets: ['@babel/preset-env'],
+                            plugins: ["@babel/plugin-proposal-class-properties"],
                         }
                     }
                 }
