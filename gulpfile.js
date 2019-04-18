@@ -155,8 +155,9 @@ gulp.task('assets:move', function(){
 gulp.task('serve', function() {
     browserSync.init({
         server: {
-            baseDir: "./build"
+            baseDir: "./build",
         },
+        port: 1234,
         tunnel: false        
     });    
 });

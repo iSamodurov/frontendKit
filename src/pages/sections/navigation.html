@@ -1,0 +1,20 @@
+
+{% set navs = [
+    {text: 'Продукция', link: ''},
+    {text: 'О компании', link: ''},
+    {text: 'Производство', link: ''},
+    {text: 'Медовые подарки', link: ''},
+    {text: 'Дегустационный зал', link: ''},
+    {text: 'Контакты', link: ''}
+] %}
+
+
+<nav class="navigation">
+    <div class="container">
+        <ul class="navigation__list">
+            {% for nav in navs %}
+            <li><a href="[[nav.link]]" class="navigation__item">{{nav.text}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</nav>

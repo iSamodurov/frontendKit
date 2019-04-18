@@ -11,7 +11,8 @@ $font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 $font-color: #222;
 $base-font-size: 14px;
 $container-width: 1200px;
-
+$color-accent: #ccc;
+$base-transition: all 230ms ease;
 
 // ------------------------------------
 //      B A S I C   S T Y L E S
@@ -42,6 +43,10 @@ html, body {
 //          T Y P O G R A P H Y
 // ------------------------------------
 
+a {
+    color: inherit;
+    cursor: pointer;
+}
 
 // ------------------------------------
 //          B L O C K S
@@ -76,7 +81,181 @@ html, body {
     }
 }
 
+
+.logo {
+    display: block;
+    max-width: 120px;
+    &__img {
+        width: 100%;
+    }
+}
+
+
+.form-control {
+    position: relative;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    z-index: 0;
+    input {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #eee;
+        &.parsley-error {
+            border-color: red;
+        }
+        &.parsley-success {
+            border-color: #3fc3ff;
+        }
+    }
+    .parsley-errors-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        position: absolute;
+        font-size: 12px;
+        top: calc(100% + 2px);
+        color: red;
+    }
+}
+
+
+.form {
+    max-width: 400px;
+    border: 1px solid #ddd;
+    padding: 15px 30px 30px;
+    position: relative;
+    &__policy {
+        padding: 20px 0 0 5px;
+        &-item {
+            display: flex;
+            position: relative;
+            opacity: 0.4;
+            &:hover {
+                opacity: 1;
+            }
+        }
+        &-text {
+            font-size: 11px;
+            margin-left: 15px;
+        }
+        &-checkbox {
+            position: relative;
+            & + .parsley-errors-list {
+                position: absolute;
+                background: #fff;
+                font-size: 12px;
+                padding: 0;
+                margin: -5px 0 0 0;
+                border-radius: 20px;
+                list-style: none;
+                color: red;
+                padding: 7px;
+                left: 18px;
+                transition: $base-transition;
+                filter: drop-shadow(1px 1px 3px rgba(#000, 0.4));
+            }
+            &.parsley-success {
+                & + .parsley-errors-list {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    &__loader {
+        position: absolute;
+        background: rgba(#fff, 0.7);
+        top:0;
+        left:0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(2PX);
+    }
+}
+
+
+
+.btn {
+    cursor: pointer;
+    border: 1px solid transparent;
+    background: $color-accent;
+    padding: 10px 20px;
+    transition: $base-transition;
+    &:hover {
+        background: lighten($color-accent, 10%);
+    }
+    &_block {
+        width: 100%;
+    }
+}
+
+
+.loader {
+    width: 40px;
+    > svg {
+        transform-origin: center center;
+        animation: rotating 3s linear infinite;
+        object-fit: contain;
+        width: 100%;
+        path {
+            stroke: #000;
+        }
+    }
+}
+
+
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
 // ------------------------------------
 //          S E C T I O N S
 // ------------------------------------
 
+.header {
+    padding: 20px 0;
+    &__wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    &__contacts {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        text-align: right;
+    }
+}
+
+
+.navigation {
+    background: $color-accent;
+    &__list {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        display: flex;
+    }
+    &__item {
+        display: block;
+        padding: 15px 20px;
+        text-decoration: none;
+        transition: $base-transition;
+        &:hover {
+            background: rgba(#000, 0.1);
+        }
+    }
+}
+
+.example {
+    padding: 5rem 0;
+}

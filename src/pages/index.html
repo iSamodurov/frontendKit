@@ -30,6 +30,11 @@
     </script>
 </head>
 <body>
+
+    {% include './sections/header.html' %}
+    {% include './sections/navigation.html' %}
+    {% include './sections/open-form.html' %}
+
     <style>
         #map {
             min-height: 400px;
@@ -38,6 +43,9 @@
     <div class="map" id="map">
     </div>
     <!-- SCRIPTS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.9.0/parsley.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/parsleyjs@2.9.0/dist/i18n/ru.js"></script>
     <script src="//api-maps.yandex.ru/2.1/?lang=ru-RU"></script>
     <script src="js/main.js"></script>
 </body>

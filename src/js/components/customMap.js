@@ -13,7 +13,11 @@ class CustomYaMap {
 		this.points = points || null;
 		this.props = Object.assign(defaultConfig, props);
 		this.map = null;
-		ymaps.ready(this.initMap);
+		try {
+			ymaps.ready(this.initMap);
+		} catch (error) {
+			console.log(error.message);
+		}
 	}
 
 	initMap = () => {
