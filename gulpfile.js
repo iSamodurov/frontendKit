@@ -17,6 +17,7 @@ const postcss = require('gulp-postcss');
 const cssImport = require("postcss-import");
 const autoprefixer = require('autoprefixer');
 const mqpacker = require("css-mqpacker");
+const sortCSSmq = require('sort-css-media-queries');
 
 
 var args = minimist(process.argv.slice(2));
@@ -28,7 +29,7 @@ var args = minimist(process.argv.slice(2));
 --------------------------------------- */
 
 gulp.task('html:build', () =>
-    gulp.src('src/pages/*.html')
+    gulp.src('src/pages/*.{html, php}')
         .pipe(plumber())
         .pipe(nunjucks.compile())
         .pipe(gulp.dest('build/'))
@@ -36,7 +37,7 @@ gulp.task('html:build', () =>
 );
 
 gulp.task('html:watch', function() {
-    gulp.watch('src/pages/**/*.html', ['html:build']);    
+    gulp.watch('src/pages/**/*.{html, php}', ['html:build']);    
 });
 
 
@@ -95,7 +96,9 @@ gulp.task('sass:build', function () {
     let plugins = [
         cssImport(),
         autoprefixer(),
-        mqpacker()
+        mqpacker({
+            sort: sortCSSmq.desktopFirst
+        })
     ]
 
     return gulp.src('src/styles/main.scss')
@@ -146,6 +149,11 @@ gulp.task('assets:move', function(){
         .pipe(gulp.dest('build/'))
 });
 
+gulp.task('php:move', function(){
+    return gulp.src('src/php/**/*.*')
+        .pipe(gulp.dest('build/php/'))
+});
+
 
 
 
@@ -166,7 +174,6 @@ gulp.task('serve', function() {
 
 
 gulp.task('watch', ['sass:watch', 'html:watch', 'images:watch']);
-gulp.task('build', ['js', 'libs', 'assets:move', 'images:build', 'sass:build', 'html:build']);
+gulp.task('build', ['js', 'libs', 'assets:move', 'images:build', 'sass:build', 'html:build', 'php:move']);
 
-//gulp.task('default', gulp.parallel('build', 'serve', 'watch'));
 gulp.task('default', ['build', 'serve', 'watch']);
