@@ -3,11 +3,12 @@
 <!DOCTYPE html>
 <html lang="ru_RU">
 <head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
     {% include '../partials/head.html' %}
     {% block head %}{% endblock %}
 </head>
 <body class="{% block bodyClass %}{% endblock %}">
-    
     
     <div class="site-wrapper" id="vue-app">
         {% include '../partials/header.html' %}
@@ -16,7 +17,6 @@
         {% include '../partials/footer.html' %}
     </div>
 
-    
     <!-- ---------- SCRIPTS ---------- -->
     {% block beforeScripts %}{% endblock %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

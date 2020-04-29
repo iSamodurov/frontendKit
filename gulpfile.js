@@ -147,7 +147,6 @@ function watchImages() {
 function vendors() {
 	let scripts = [
 		'node_modules/custom-event-polyfill/polyfill.js',
-		'node_modules/realprogress/dist/realprogress.min.js',
 	];
 	return src(scripts)
 		.pipe(dest('build/js/vendors/'));
