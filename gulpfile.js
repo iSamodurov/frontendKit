@@ -40,7 +40,7 @@ function html() {
 			['<no-typography>', '</no-typography>']
 		],
 	}))
-	.pipe(dest('./dest/'))
+	.pipe(dest('./build/'))
 	.pipe(browserSync.reload({ stream: true }));
 }
 function watchHtml() {
@@ -67,7 +67,7 @@ function buildStyles() {
 	return src('./src/styles/main.scss')
 		.pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
 		.pipe(postcss(plugins))
-		.pipe(dest('dest/css/'))
+		.pipe(dest('build/css/'))
 		.pipe(browserSync.stream());
 }
 
@@ -111,7 +111,7 @@ function scripts() {
 
 	return src('./src/js/*.js')
 		.pipe(webpack(config))
-		.pipe(dest('dest/js/'))
+		.pipe(dest('build/js/'))
 		.pipe(browserSync.stream());
 }
 
@@ -124,14 +124,14 @@ function scripts() {
 
 function images() {
 	return src('src/img/**/*.*')
-	.pipe(newer('dest/img/'))
+	.pipe(newer('build/img/'))
 	.pipe(image({
 		pngquant: true,
 		mozjpeg: true,
 		svgo: false,
       	concurrent: 10,
 	}))
-	.pipe(dest('dest/img/'))
+	.pipe(dest('build/img/'))
 	.pipe(browserSync.reload({ stream: true }));
 }
 function watchImages() {
@@ -140,7 +140,7 @@ function watchImages() {
 
 /**
  * ==================================
- *          V E N D O R S
+ *          VENDORS & PUBLIC
  * ==================================
  */
 
@@ -150,7 +150,12 @@ function vendors() {
 		'node_modules/realprogress/dist/realprogress.min.js',
 	];
 	return src(scripts)
-		.pipe(dest('dest/js/vendors/'));
+		.pipe(dest('build/js/vendors/'));
+}
+
+function publicAssets() {
+	return src('public/**/*.*')
+		.pipe(dest('build/'));
 }
 
 
@@ -165,7 +170,7 @@ function serve() {
 		// proxy: "october.loc",
 		port: 1234,
 		server: {
-			baseDir: "./dest/",
+			baseDir: "./build/",
 		},
 	});
 }
