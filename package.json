@@ -1,44 +1,39 @@
 {
-  "name": "frontend-kit",
-  "version": "2.0.0",
-  "description": "New version frontendKit ",
+  "name": "frontendkit",
+  "version": "1.2.0",
   "main": "index.js",
-  "author": "Ivan A Samodurov (samodurov.ivan@gmail.com)",
+  "author": "Samodurov I.A.",
   "license": "MIT",
   "scripts": {
-    "dev": "gulp --env development",
-    "build": "gulp build --env production",
-    "clear": "rm -rf build/"
+    "dev": "gulp dev",
+    "build": "NODE_ENV=production gulp build",
+    "mocks": "mockserver -p 9001 -m ./mocks"
   },
   "dependencies": {
-    "normalize.css": "^8.0.0",
-    "sourcebuster": "^1.1.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.1.2",
-    "@babel/plugin-proposal-class-properties": "^7.4.0",
-    "@babel/preset-env": "^7.1.0",
-    "autoprefixer": "^9.2.1",
-    "babel-eslint": "^10.0.1",
-    "babel-loader": "^8.0.4",
-    "browser-sync": "^2.26.3",
-    "css-mqpacker": "^7.0.0",
-    "eslint": "^5.16.0",
-    "eslint-config-google": "^0.11.0",
-    "eslint-plugin-class-property": "^1.1.0",
-    "gulp": "^3.9.1",
-    "gulp-if": "^2.0.2",
-    "gulp-image": "^4.3.0",
+    "axios": "^0.19.2",
+    "custom-event-polyfill": "^1.0.7",
+    "gulp": "^4.0.2",
+    "gulp-image": "^6.0.0",
     "gulp-newer": "^1.4.0",
-    "gulp-nunjucks": "^4.0.0",
-    "gulp-plumber": "^1.2.0",
+    "gulp-nunjucks": "^5.0.1",
     "gulp-postcss": "^8.0.0",
     "gulp-sass": "^4.0.2",
-    "gulp-sourcemaps": "^2.6.4",
-    "minimist": "^1.2.0",
-    "postcss-import": "^12.0.0",
-    "sort-css-media-queries": "^1.5.0",
-    "webpack-messages": "^2.0.3",
-    "webpack-stream": "^5.1.1"
+    "gulp-typograf": "^4.0.2",
+    "inputmask": "^5.0.3",
+    "node-sass": "^4.13.0",
+    "normalize.css": "^8.0.1",
+    "postcss-combine-media-query": "^1.0.0",
+    "postcss-import": "^12.0.1",
+    "postcss-pxtorem": "^5.0.0",
+    "postcss-sort-media-queries": "^1.31.21",
+    "swiper": "^5.3.7",
+    "vue-loader": "^15.9.1",
+    "vue-template-compiler": "^2.6.11",
+    "vuex": "^3.2.0",
+    "webpack-stream": "^5.2.1"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.26.7",
+    "mockserver": "^3.1.1"
   }
 }

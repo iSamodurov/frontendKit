@@ -1,52 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Page Title</title>
+{% extends "layouts/default.html" %}
 
-    <meta name="description" content="">
-    <meta name="author" content="Samodurov I.A.">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="#299CC4">
-    <meta name="apple-mobile-web-app-title" content="">
 
-    <meta property="og:site_name" content="">
-    <meta property="og:locale" content="ru_RU">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="">
-    <meta property="og:image" content="">
-    <meta property="og:description" content="">
-    <meta property="og:url" content="">
+{% block title %}{% endblock %}
+{% block head %}{% endblock %}
+{% block bodyClass %}{% endblock %}
+{% block content %}
 
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="shortcut icon" href="favicon.ico">    
-    <script src="js/libs/sourcebuster.min.js"></script>
-    <script>
-        sbjs.init({
-            isolate: true
-        });
-    </script>
-</head>
-<body>
 
-    {% include './sections/header.html' %}
-    {% include './sections/navigation.html' %}
-    {% include './sections/open-form.html' %}
 
-    <style>
-        #map {
-            min-height: 400px;
-        }
-    </style>
-    <div class="map" id="map">
+<section class="home-screen">
+    <div class="container">
+        <h1>Example title</h1>
     </div>
-    <!-- SCRIPTS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.9.0/parsley.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/parsleyjs@2.9.0/dist/i18n/ru.js"></script>
-    <script src="//api-maps.yandex.ru/2.1/?lang=ru-RU"></script>
-    <script src="js/main.js"></script>
-</body>
-</html>
+</section>
+
+
+
+{% endblock %}
+{% block beforeScripts %}{% endblock %}
+{% block scripts %}{% endblock %}
+

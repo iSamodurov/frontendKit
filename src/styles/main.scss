@@ -1,261 +1,68 @@
+@import '../../node_modules/normalize.css/normalize.css';
+// @import '../../node_modules/swiper/swiper.scss';
 
-@import "../../node_modules/normalize.css/normalize.css";
-@import './core';
-
+@import './breakpoints.scss';
+@import './mixins.scss';
 
 // ------------------------------------
 //      V A R I A B L E S
 // ------------------------------------
 
-$font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-$font-color: #222;
-$base-font-size: 14px;
-$container-width: 1200px;
-$color-accent: #ccc;
-$base-transition: all 230ms ease;
+$font-family: 'Fira Sans', sans-serif;
+$font-color: #000;
 
-// ------------------------------------
-//      B A S I C   S T Y L E S
-// ------------------------------------
 * {
     box-sizing: border-box;
-    outline: none 0;
+    outline: none;
 }
 
 html, body {
     font-family: $font-family;
     color: $font-color;
-    font-size: $base-font-size;
+    font-size: 16PX;
+    font-weight: 300;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;   
-    @include respond-from('FHD') {
-        font-size: 16px;
-    } 
+    -moz-osx-font-smoothing: grayscale;
+    @include respond-from('laptop-hdpi') {
+        font-size: 18PX;
+    }
+    @include respond-from('2K') {
+        font-size: 21PX;
+    }
+    @include respond-from('UHD') {
+        font-size: 34PX;
+    }
 }
+
+.site-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 
 .container {
-    width: $container-width;
+    width: 100%;
+    padding: 0 40px;
     margin: 0 auto;
-}
-
-
-// ------------------------------------
-//          T Y P O G R A P H Y
-// ------------------------------------
-
-a {
-    color: inherit;
-    cursor: pointer;
-}
-
-// ------------------------------------
-//          B L O C K S
-// ------------------------------------
-
-.map  {
-    .custom-placemark {
-        $pin-size: 10px;
-        display: block;
-        background: #fff;
-        min-width: 160px;
-        padding: 10px 15px;
-        position: relative;
-        transform: translate(-50%, -100%);
-        margin-top: -$pin-size;
-        filter: drop-shadow(0 -3px 16px rgba(0, 0, 0, 0.2));
-        &:after {
-            content: "";
-            position: absolute;
-            border: $pin-size solid transparent;
-            border-top: $pin-size solid #fff;
-            top:100%;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-    }
-    canvas {
-        filter: grayscale(100%) brightness(70%) contrast(200%);
-    }
-    [class*="-copyright__wrap"] {
-        display: none;
-    }
-}
-
-
-.logo {
-    display: block;
-    max-width: 120px;
-    &__img {
-        width: 100%;
-    }
-}
-
-
-.form-control {
-    position: relative;
-    margin-bottom: 20px;
-    margin-top: 10px;
-    z-index: 0;
-    input {
-        width: 100%;
-        padding: 10px;
-        border: 2px solid #eee;
-        &.parsley-error {
-            border-color: red;
-        }
-        &.parsley-success {
-            border-color: #3fc3ff;
-        }
-    }
-    .parsley-errors-list {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        position: absolute;
-        font-size: 12px;
-        top: calc(100% + 2px);
-        color: red;
-    }
-}
-
-
-.form {
-    max-width: 400px;
-    border: 1px solid #ddd;
-    padding: 15px 30px 30px;
-    position: relative;
-    &__policy {
-        padding: 20px 0 0 5px;
-        &-item {
-            display: flex;
-            position: relative;
-            opacity: 0.4;
-            &:hover {
-                opacity: 1;
-            }
-        }
-        &-text {
-            font-size: 11px;
-            margin-left: 15px;
-        }
-        &-checkbox {
-            position: relative;
-            & + .parsley-errors-list {
-                position: absolute;
-                background: #fff;
-                font-size: 12px;
-                padding: 0;
-                margin: -5px 0 0 0;
-                border-radius: 20px;
-                list-style: none;
-                color: red;
-                padding: 7px;
-                left: 18px;
-                transition: $base-transition;
-                filter: drop-shadow(1px 1px 3px rgba(#000, 0.4));
-            }
-            &.parsley-success {
-                & + .parsley-errors-list {
-                    display: none;
-                }
-            }
-        }
-    }
-
-    &__loader {
-        position: absolute;
-        background: rgba(#fff, 0.7);
-        top:0;
-        left:0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        backdrop-filter: blur(2PX);
-    }
-}
-
-
-
-.btn {
-    cursor: pointer;
-    border: 1px solid transparent;
-    background: $color-accent;
-    padding: 10px 20px;
     transition: $base-transition;
-    &:hover {
-        background: lighten($color-accent, 10%);
-    }
-    &_block {
-        width: 100%;
+    @include respond-to('medium') {
+        padding-left: 20px;
+        padding-right: 20px;
     }
 }
-
-
-.loader {
-    width: 40px;
-    > svg {
-        transform-origin: center center;
-        animation: rotating 3s linear infinite;
-        object-fit: contain;
-        width: 100%;
-        path {
-            stroke: #000;
-        }
-    }
-}
-
-
-@keyframes rotating {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 
 // ------------------------------------
-//          S E C T I O N S
+//      B L O C K S
 // ------------------------------------
 
-.header {
-    padding: 20px 0;
-    &__wrapper {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    &__contacts {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        text-align: right;
-    }
-}
+@import './blocks/typography.scss';
+@import './blocks/buttons.scss';
+@import './blocks/icons.scss';
+@import './blocks/header.scss';
+@import './blocks/footer.scss';
 
+// ------------------------------------
+//      S E C T I O N S
+// ------------------------------------
 
-.navigation {
-    background: $color-accent;
-    &__list {
-        padding: 0;
-        margin: 0;
-        list-style: none;
-        display: flex;
-    }
-    &__item {
-        display: block;
-        padding: 15px 20px;
-        text-decoration: none;
-        transition: $base-transition;
-        &:hover {
-            background: rgba(#000, 0.1);
-        }
-    }
-}
-
-.example {
-    padding: 5rem 0;
-}
