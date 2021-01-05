@@ -10,7 +10,7 @@
     "mocks": "mockserver -p 9001 -m ./mocks"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "custom-event-polyfill": "^1.0.7",
     "gulp": "^4.0.2",
     "gulp-image": "^6.0.0",
