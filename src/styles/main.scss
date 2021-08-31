@@ -63,6 +63,14 @@ html, body {
 @import './blocks/header.scss';
 @import './blocks/footer.scss';
 
+.logo {
+    display: block;
+    max-width: 150px;
+    &__img {
+        width: 100%;
+    }
+}
+
 // ------------------------------------
 //      S E C T I O N S
 // ------------------------------------

@@ -1,42 +1,5 @@
-{% set cards = [
-    'Первоклассные практикующие специалисты',
-    'Оборудование экспертного класса',
-    'Внимательный персонал',
-    'Сложные анализы и исследования',
-    'Доказательная медицина',
-    'Просторная парковка'
-] %}
-
-
 <section class="home-screen">
-    <div class="home-screen__bg">
-        <img src="img/home/man-img.png" class="home-screen__bg-img" alt="">
-    </div>
-    <div class="home-screen__content">
-        <h1 class="title title_no-dots home-screen__title">
-            Комфортное 
-            <span class="underline">лечение</span>
-            для всей семьи
-        </h1>
-        <button class="btn btn_with-icon home-screen__btn">
-            <span>
-                Чем <span class="hides">мы можем</span> вам помочь?
-            </span>
-            <i class="icon icon_search-white"></i>
-        </button>
-    </div>
-    <div class="home-screen__scroll">
-        <div class="home-screen__scroll-content">
-            {% for i in range(1, 7) %}
-            <div class="home-screen__card">
-                <div class="home-screen__card-icon">
-                    <img src="img/home/icons/{{i}}.svg" alt="">
-                </div>
-                <div class="home-screen__card-text">
-                    {{ cards[i-1] }}
-                </div>
-            </div>
-            {% endfor %}
-        </div>
+    <div class="container">
+        <h1>Example title {{ vars.phone }}</h1>
     </div>
 </section>

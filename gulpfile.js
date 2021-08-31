@@ -5,8 +5,7 @@ const nunjucks = require('gulp-nunjucks');
 const webpack = require('webpack-stream');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
-const sass = require('gulp-sass');
-sass.compiler = require('node-sass');
+const sass = require('gulp-sass')(require('node-sass'));
 const postcss = require('gulp-postcss');
 const postcssImport = require("postcss-import");
 const pxtorem = require('postcss-pxtorem');
@@ -25,11 +24,19 @@ const mode = (process.env.NODE_ENV == 'production') ? 'production' : 'developmen
  * ==================================
  */
 
-const njkOptions = { autoescape: false }
+const njkOptions = { 
+	autoescape: false,
+	filters: {
+		"toTel": value => value.replace(/[ _)(-]/g,''),
+	}
+}
 const njkData = {};
 
 function html() {
-	return src('./src/pages/*.html')
+	return src([
+		'./src/pages/*.{html, njk}', 
+		'!./src/pages/_vars.html'
+	])
 	.pipe(nunjucks.compile(njkData, njkOptions))
 	.pipe(typograf({ 
 		locale: ['ru', 'en-US'],
@@ -43,8 +50,8 @@ function html() {
 	.pipe(dest('./build/'))
 	.pipe(browserSync.reload({ stream: true }));
 }
-function watchHtml() {
-	watch('./src/pages/**/*.html', html);
+async function watchHtml() {
+	return watch('./src/pages/**/*.html', html);
 }
 
 /**
@@ -71,8 +78,8 @@ function buildStyles() {
 		.pipe(browserSync.stream());
 }
 
-function watchStyles() {
-	watch('./src/styles/**/*.scss', buildStyles);
+async function watchStyles() {
+	return watch('./src/styles/**/*.scss', buildStyles);
 }
 
 
@@ -82,15 +89,15 @@ function watchStyles() {
  *      B U I L D   S C R I P T S
  * ==================================
  */
-function scripts() {
+async function scripts() {
 	let watch = (mode == 'production') ? false : true;
 
 	const config = {
-		watch: watch,
+		watch: false,
 		mode: mode,
 		entry: {
 			'main': './src/js/main.js',
-			'app': './src/js/app.js',
+			//'app': './src/js/app.js',
 		},
 		output: {
 			path: __dirname,
@@ -134,8 +141,8 @@ function images() {
 	.pipe(dest('build/img/'))
 	.pipe(browserSync.reload({ stream: true }));
 }
-function watchImages() {
-	watch('src/img/**/*.*', images);
+async function watchImages(cb) {
+	return watch('src/img/**/*.*', images);
 }
 
 /**
@@ -152,6 +159,7 @@ function vendors() {
 		.pipe(dest('build/js/vendors/'));
 }
 
+
 function publicAssets() {
 	return src('public/**/*.*')
 		.pipe(dest('build/'));
@@ -164,10 +172,13 @@ function publicAssets() {
  * ==================================
  */
 
-function serve() {
-	browserSync.init({
-		// proxy: "october.loc",
+async function serve() {
+	return browserSync.init({
+		// proxy: "mysite.com",
 		port: 1234,
+		tunnel: false,
+		online: false,
+		browser: "google chrome",
 		server: {
 			baseDir: "./build/",
 		},
@@ -184,5 +195,6 @@ exports.dev = series(
 );
 
 exports.build = series(
+	publicAssets,
 	parallel(images, buildStyles, vendors, scripts, html),
 );

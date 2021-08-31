@@ -1,6 +1,6 @@
 {
   "name": "frontendkit",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "main": "index.js",
   "author": "Samodurov I.A.",
   "license": "MIT",
@@ -10,30 +10,31 @@
     "mocks": "mockserver -p 9001 -m ./mocks"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "custom-event-polyfill": "^1.0.7",
     "gulp": "^4.0.2",
     "gulp-image": "^6.0.0",
     "gulp-newer": "^1.4.0",
     "gulp-nunjucks": "^5.0.1",
-    "gulp-postcss": "^8.0.0",
-    "gulp-sass": "^4.1.0",
+    "gulp-postcss": "^9.0.1",
+    "gulp-sass": "^5.0.0",
     "gulp-typograf": "^4.0.2",
     "inputmask": "^5.0.3",
-    "node-sass": "^4.14.0",
+    "node-sass": "^6.0.1",
     "normalize.css": "^8.0.1",
+    "postcss": "^8.3.6",
     "postcss-combine-media-query": "^1.0.0",
-    "postcss-import": "^12.0.1",
-    "postcss-pxtorem": "^5.0.0",
-    "postcss-sort-media-queries": "^1.31.21",
-    "swiper": "^5.3.8",
+    "postcss-import": "^14.0.2",
+    "postcss-pxtorem": "^6.0.0",
+    "postcss-sort-media-queries": "^3.11.12",
+    "swiper": "^7.0.1",
     "vue-loader": "^15.9.1",
     "vue-template-compiler": "^2.6.11",
     "vuex": "^3.3.0",
-    "webpack-stream": "^5.2.1"
+    "webpack-stream": "^6.1.2"
   },
   "devDependencies": {
-    "browser-sync": "^2.26.7",
+    "browser-sync": "^2.27.5",
     "mockserver": "^3.1.1"
   }
 }

@@ -1,5 +1,12 @@
 <header class="header">
     <div class="container">
-        <a href="/">Header</a>
+        <a href="/" class="logo">
+            <img src="img/logo.svg" alt="" class="logo__img">
+        </a>
+
+        <div class="header__contacts">
+            <a href="tel:{{ vars.phone | toTel }}" class="phone">{{ vars.phone }}</a> <br>
+            <a href="tel:" class="phone">{{ vars.email }}</a>
+        </div>
     </div>
 </header>

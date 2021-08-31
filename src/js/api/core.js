@@ -1,6 +1,8 @@
 import axios from 'axios';
 
 const apiUrl = (process.env.NODE_ENV == 'production') ? '/api' : '//localhost:9001';
+
+
 const axiosInstance = axios.create({
 	baseURL: apiUrl,
 	headers: {
