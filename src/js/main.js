@@ -1,6 +1,5 @@
-import { initPhoneMask, initMap } from './utils/functions';
+import { initPhoneMask } from './utils/functions';
 
-window.initMap = initMap;
 
 document.addEventListener('DOMContentLoaded', function(){
     $('form').parsley();
