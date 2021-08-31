@@ -2,11 +2,8 @@ import Swiper from 'swiper';
 
 const initSlider = (selector) => {
 
-    if (typeof selector === 'string') {
-        if (!document.querySelector(selector)) return false;
-    } else if (selector === 'undefined') {
-        return false;
-    }
+    if (typeof selector !== 'string') return;
+    if (!document.querySelector(selector)) return;
     
     const NEXT = '.swiper-button__next';
     const PREV = '.swiper-button__prev';
