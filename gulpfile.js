@@ -35,7 +35,8 @@ const njkData = {};
 function html() {
 	return src([
 		'./src/pages/*.{html, njk}', 
-		'!./src/pages/_vars.html'
+		'!./src/pages/_vars.html',
+		'!./src/pages/_macros.html',
 	])
 	.pipe(nunjucks.compile(njkData, njkOptions))
 	.pipe(typograf({ 
@@ -93,7 +94,7 @@ async function scripts() {
 	let watch = (mode == 'production') ? false : true;
 
 	const config = {
-		watch: false,
+		watch: true,
 		mode: mode,
 		entry: {
 			'main': './src/js/main.js',
@@ -177,7 +178,7 @@ async function serve() {
 		// proxy: "mysite.com",
 		port: 1234,
 		tunnel: false,
-		online: false,
+		online: true,
 		browser: "google chrome",
 		server: {
 			baseDir: "./build/",
