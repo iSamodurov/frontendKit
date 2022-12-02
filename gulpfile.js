@@ -3,7 +3,6 @@ const { series, parallel, src, dest, watch } = require('gulp');
 const typograf = require('gulp-typograf');
 const nunjucks = require('gulp-nunjucks');
 const webpack = require('webpack-stream');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 const sass = require('gulp-sass')(require('node-sass'));
 const postcss = require('gulp-postcss');
@@ -14,9 +13,11 @@ const sortMQ = require('postcss-sort-media-queries');
 const browserSync = require('browser-sync').create();
 
 const newer = require('gulp-newer');
-const image = require('gulp-image');
+const imagemin = require('gulp-imagemin');
 
 const mode = (process.env.NODE_ENV == 'production') ? 'production' : 'development';
+
+const { VueLoaderPlugin } = require('vue-loader')
 
 /**
  * ==================================
@@ -24,32 +25,32 @@ const mode = (process.env.NODE_ENV == 'production') ? 'production' : 'developmen
  * ==================================
  */
 
-const njkOptions = { 
+const njkOptions = {
 	autoescape: false,
 	filters: {
-		"toTel": value => value.replace(/[ _)(-]/g,''),
+		"toTel": value => value.replace(/[ _)(-]/g, ''),
 	}
 }
 const njkData = {};
 
 function html() {
 	return src([
-		'./src/pages/*.{html, njk}', 
+		'./src/pages/*.{html, njk}',
 		'!./src/pages/_vars.html',
 		'!./src/pages/_macros.html',
 	])
-	.pipe(nunjucks.compile(njkData, njkOptions))
-	.pipe(typograf({ 
-		locale: ['ru', 'en-US'],
-		disableRule: ['ru/other/phone-number'],
-		enableRule: ['common/number/digitGrouping'],
-		safeTags: [
-			['<\\?php', '\\?>'],
-			['<no-typography>', '</no-typography>']
-		],
-	}))
-	.pipe(dest('./build/'))
-	.pipe(browserSync.reload({ stream: true }));
+		.pipe(nunjucks.compile(njkData, njkOptions))
+		.pipe(typograf({
+			locale: ['ru', 'en-US'],
+			disableRule: ['ru/other/phone-number'],
+			enableRule: ['common/number/digitGrouping'],
+			safeTags: [
+				['<\\?php', '\\?>'],
+				['<no-typography>', '</no-typography>']
+			],
+		}))
+		.pipe(dest('./build/'))
+		.pipe(browserSync.reload({ stream: true }));
 }
 async function watchHtml() {
 	return watch('./src/pages/**/*.html', html);
@@ -71,7 +72,7 @@ function buildStyles() {
 			propList: ['*'],
 		}),
 	];
-	
+
 	return src('./src/styles/main.scss')
 		.pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
 		.pipe(postcss(plugins))
@@ -94,11 +95,11 @@ async function scripts() {
 	let watch = (mode == 'production') ? false : true;
 
 	const config = {
-		watch: true,
+		watch: watch,
 		mode: mode,
 		entry: {
 			'main': './src/js/main.js',
-			//'app': './src/js/app.js',
+			'app': './src/js/app.js',
 		},
 		output: {
 			path: __dirname,
@@ -109,6 +110,17 @@ async function scripts() {
 				{
 					test: /\.vue$/,
 					loader: 'vue-loader'
+				},
+				{
+					test: /\.scss$/,
+					use: [
+						'vue-style-loader',
+						{
+							loader: 'css-loader',
+							options: { modules: true }
+						},
+						'sass-loader'
+					]
 				}
 			]
 		},
@@ -132,15 +144,10 @@ async function scripts() {
 
 function images() {
 	return src('src/img/**/*.*')
-	.pipe(newer('build/img/'))
-	.pipe(image({
-		pngquant: true,
-		mozjpeg: true,
-		svgo: false,
-      	concurrent: 10,
-	}))
-	.pipe(dest('build/img/'))
-	.pipe(browserSync.reload({ stream: true }));
+		.pipe(newer('build/img/'))
+		.pipe(imagemin())
+		.pipe(dest('build/img/'))
+		.pipe(browserSync.reload({ stream: true }));
 }
 async function watchImages(cb) {
 	return watch('src/img/**/*.*', images);
