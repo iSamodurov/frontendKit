@@ -1,208 +1,151 @@
-const { series, parallel, src, dest, watch } = require('gulp');
+import gulp from 'gulp';
+import { nunjucksCompile } from 'gulp-nunjucks';
+import imagemin from 'gulp-imagemin';
+import esbuild from 'gulp-esbuild';
+import autoprefixer from 'gulp-autoprefixer';
+import { sassPlugin } from 'esbuild-sass-plugin'
+import postcss from 'esbuild-postcss';
+import pxtorem from 'postcss-pxtorem';
+import sortMQ from 'postcss-sort-media-queries';
+import combineMQ from 'postcss-combine-media-query';
+import browserSync from 'browser-sync';
+browserSync.create();
 
-const typograf = require('gulp-typograf');
-const nunjucks = require('gulp-nunjucks');
-const webpack = require('webpack-stream');
+import rimraf from 'gulp-rimraf';
+import newer from 'gulp-newer';
+import { dirs } from './gulp/vars.js';
 
-const sass = require('gulp-sass')(require('node-sass'));
-const postcss = require('gulp-postcss');
-const postcssImport = require("postcss-import");
-const pxtorem = require('postcss-pxtorem');
-const combineMQ = require('postcss-combine-media-query');
-const sortMQ = require('postcss-sort-media-queries');
-const browserSync = require('browser-sync').create();
 
-const newer = require('gulp-newer');
-const imagemin = require('gulp-imagemin');
 
-const mode = (process.env.NODE_ENV == 'production') ? 'production' : 'development';
+/* ---------- HTML ---------- */
 
-const { VueLoaderPlugin } = require('vue-loader')
-
-/**
- * ==================================
- *      B U I L D   H T M L
- * ==================================
- */
-
-const njkOptions = {
-	autoescape: false,
-	filters: {
-		"toTel": value => value.replace(/[ _)(-]/g, ''),
-	}
+function buildHtml(cb) {
+    return gulp.src(dirs.src.pages)
+        .pipe(nunjucksCompile())
+        .pipe(gulp.dest(dirs.dist.root))
+        .pipe(browserSync.stream());
 }
-const njkData = {};
-
-function html() {
-	return src([
-		'./src/pages/*.{html, njk}',
-		'!./src/pages/_vars.html',
-		'!./src/pages/_macros.html',
-	])
-		.pipe(nunjucks.compile(njkData, njkOptions))
-		.pipe(typograf({
-			locale: ['ru', 'en-US'],
-			disableRule: ['ru/other/phone-number'],
-			enableRule: ['common/number/digitGrouping'],
-			safeTags: [
-				['<\\?php', '\\?>'],
-				['<no-typography>', '</no-typography>']
-			],
-		}))
-		.pipe(dest('./build/'))
-		.pipe(browserSync.reload({ stream: true }));
-}
-async function watchHtml() {
-	return watch('./src/pages/**/*.html', html);
+async function watchHtml(cb) {
+    return gulp.watch(dirs.watch.pages, buildHtml);
 }
 
-/**
- * ==================================
- *      B U I L D   S T Y L E S
- * ==================================
- */
+
+
+/* ---------- STYLES ---------- */
+
 function buildStyles() {
-	const plugins = [
-		postcssImport(),
-		combineMQ(),
-		sortMQ({ sort: 'desktop-first' }),
-		pxtorem({
-			replace: false,
-			rootValue: 16,
-			propList: ['*'],
-		}),
-	];
-
-	return src('./src/styles/main.scss')
-		.pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
-		.pipe(postcss(plugins))
-		.pipe(dest('build/css/'))
-		.pipe(browserSync.stream());
+    const options = {
+        plugins: [
+            sassPlugin(),
+            postcss({
+                plugins: [
+                    combineMQ(),
+                    sortMQ({ sort: 'desktop-first' }),
+                    pxtorem({
+                        replace: false,
+                        rootValue: 16,
+                        propList: ['*'],
+                    }),
+                ]
+            }),
+        ],
+    };
+    return gulp.src(dirs.src.styles)
+        .pipe(esbuild(options))
+        .pipe(autoprefixer())
+        .pipe(gulp.dest(dirs.dist.styles))
+        .pipe(browserSync.stream());
 }
 
-async function watchStyles() {
-	return watch('./src/styles/**/*.scss', buildStyles);
-}
-
-
-
-/**
- * ==================================
- *      B U I L D   S C R I P T S
- * ==================================
- */
-async function scripts() {
-	let watch = (mode == 'production') ? false : true;
-
-	const config = {
-		watch: watch,
-		mode: mode,
-		entry: {
-			'main': './src/js/main.js',
-			'app': './src/js/app.js',
-		},
-		output: {
-			path: __dirname,
-			filename: '[name].js'
-		},
-		module: {
-			rules: [
-				{
-					test: /\.vue$/,
-					loader: 'vue-loader'
-				},
-				{
-					test: /\.scss$/,
-					use: [
-						'vue-style-loader',
-						{
-							loader: 'css-loader',
-							options: { modules: true }
-						},
-						'sass-loader'
-					]
-				}
-			]
-		},
-		plugins: [
-			new VueLoaderPlugin()
-		]
-	};
-
-	return src('./src/js/*.js')
-		.pipe(webpack(config))
-		.pipe(dest('build/js/'))
-		.pipe(browserSync.stream());
+async function watchStyles(cb) {
+    return gulp.watch(dirs.watch.styles, buildStyles);
 }
 
 
-/**
- * ==================================
- *          I M A G E S
- * ==================================
- */
+/* ---------- SCRIPTS ---------- */
 
-function images() {
-	return src('src/img/**/*.*')
-		.pipe(newer('build/img/'))
-		.pipe(imagemin())
-		.pipe(dest('build/img/'))
-		.pipe(browserSync.reload({ stream: true }));
+function buildScripts() {
+    const options = {
+        bundle: true,
+        minify: true,
+    };
+    return gulp.src(dirs.src.scripts)
+        .pipe(esbuild(options))
+        .pipe(gulp.dest(dirs.dist.scripts))
+        .pipe(browserSync.stream());
+}
+
+async function watchScripts(cb) {
+    return gulp.watch(dirs.watch.scripts, buildScripts);
+}
+
+
+/* ---------- IMAGES ---------- */
+
+function buildImages() {
+    return gulp.src(dirs.src.img)
+        .pipe(newer(dirs.dist.img))
+        .pipe(imagemin())
+        .pipe(gulp.dest(dirs.dist.img));
 }
 async function watchImages(cb) {
-	return watch('src/img/**/*.*', images);
-}
-
-/**
- * ==================================
- *          VENDORS & PUBLIC
- * ==================================
- */
-
-function vendors() {
-	let scripts = [
-		'node_modules/custom-event-polyfill/polyfill.js',
-	];
-	return src(scripts)
-		.pipe(dest('build/js/vendors/'));
+    return gulp.watch(dirs.watch.img, buildImages);
 }
 
 
-function publicAssets() {
-	return src('public/**/*.*')
-		.pipe(dest('build/'));
+/* ---------- ASSETS ---------- */
+
+function copyFonts() {
+    return gulp.src(dirs.src.fonts)
+        .pipe(gulp.dest(dirs.dist.fonts));
+}
+
+function copyPublicAssets() {
+    return gulp.src(dirs.public)
+        .pipe(gulp.dest(dirs.dist.root));
+}
+
+// function copyAssets() {
+//     return gulp.src([dirs.public, dirs.src.fonts])
+//         .pipe(gulp.dest(dirs.dist.root));
+// }
+
+let copyAssets = gulp.parallel(copyFonts, copyPublicAssets);
+
+async function watchAssets(cb) {
+    return gulp.watch(dirs.public, copyAssets);
 }
 
 
-/**
- * ==================================
- *     B R O W S E R   S Y N C 
- * ==================================
- */
+/* ---------- HELPERS ---------- */
+function clean(cb) {
+    return gulp.src(dirs.dist.root)
+        .pipe(rimraf());
+}
 
-async function serve() {
-	return browserSync.init({
-		// proxy: "mysite.com",
-		port: 1234,
-		tunnel: false,
-		online: true,
-		browser: "google chrome",
-		server: {
-			baseDir: "./build/",
-		},
-	});
+async function serve(cb) {
+    return browserSync.init({
+        server: {
+            baseDir: dirs.dist,
+        }
+    });
 }
 
 
+/* ---------- TASKS ---------- */
 
-exports.dev = series(
-	vendors,
-	images,
-	parallel(html, buildStyles),
-	parallel(watchImages, watchStyles, scripts, watchHtml, serve),
+const dev = gulp.series(
+    gulp.parallel(copyAssets, buildImages, buildStyles, buildScripts),
+    buildHtml,
+    gulp.parallel(watchAssets, watchImages, watchHtml, watchStyles, watchScripts, serve),
 );
 
-exports.build = series(
-	publicAssets,
-	parallel(images, buildStyles, vendors, scripts, html),
+const build = gulp.series(
+    clean,
+    copyAssets,
+    gulp.parallel(buildStyles, buildScripts, buildHtml),
 );
+
+
+export { dev, clean }
+export default build;

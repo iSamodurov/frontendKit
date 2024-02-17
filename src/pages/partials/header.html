@@ -1,12 +1,22 @@
-<header class="header">
-    <div class="container">
-        <a href="/" class="logo">
-            <img src="img/logo.svg" alt="" class="logo__img">
-        </a>
-
-        <div class="header__contacts">
-            <a href="tel:{{ vars.phone | toTel }}" class="phone">{{ vars.phone }}</a> <br>
-            <a href="tel:" class="phone">{{ vars.email }}</a>
+<div class="header">
+    <div class="container header__container">
+        <div class="header__left">
+            <div class="header__logo">
+                <img src="img/logo.svg" alt="" class="logo">
+            </div>
+            <div class="header__nav">
+                <nav>
+                    <a href="">Главная</a>
+                    <a href="">Каталог</a>
+                    <a href="">О нас</a>
+                    <a href="">Контакты</a>
+                </nav>
+            </div>
+        </div>
+        <div class="header__right">
+            <div class="header__action">
+                <button class="btn">Оставить заявку</button>
+            </div>
         </div>
     </div>
-</header>
+</div>
