@@ -1,20 +1,16 @@
-{% extends "layouts/default.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include './partials/head.html' %}
+</head>
+<body>
+    <div class="site-wrapper">
+        {% include './partials/header.html' %}
+        <!-- MAIN CONTENT START -->
 
-
-{% block title %} Home page {% endblock %}
-{% block head %}{% endblock %}
-{% block bodyClass %}{% endblock %}
-{% block content %}
-
-<!-- SECTIONS -->
-{% include './sections/home-screen.html' %}
-
-<section id="vue-content">
-    <div class="container">
-        <div id="vue-component"></div>
+        <!-- MAIN CONTENT END -->
+        {% include './partials/footer.html' %}
     </div>
-</section>
-
-{% endblock %}
-{% block beforeScripts %}{% endblock %}
-{% block scripts %}{% endblock %}
+    {% include './partials/scripts.html' %}
+</body>
+</html>

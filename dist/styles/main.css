@@ -1,0 +1,72 @@
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  outline: none;
+}
+html,
+body {
+  font-family: "Fira Sans", sans-serif;
+  color: #000;
+  font-size: 16PX;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  margin: 0;
+}
+@media (min-width: 1500px) {
+  html,
+  body {
+    font-size: 18PX;
+  }
+}
+@media (min-width: 2000px) {
+  html,
+  body {
+    font-size: 21PX;
+  }
+}
+@media (min-width: 3840px) {
+  html,
+  body {
+    font-size: 34PX;
+  }
+}
+.site-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  min-height: 100vh;
+}
+.container {
+  width: 100%;
+  padding: 0 40px;
+  margin: 0 auto;
+  -webkit-transition: all 230ms ease;
+  transition: all 230ms ease;
+}
+@media (max-width: 950px) {
+  .container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+.header {
+  border: 1px solid;
+  padding: 15px 0;
+}
+.footer {
+  border: 1px solid;
+  margin: auto 0 0;
+}
+.logo {
+  display: block;
+  max-width: 150px;
+}
+.logo__img {
+  width: 100%;
+}
